@@ -1,6 +1,4 @@
 local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -78,7 +76,7 @@ local jumppower_toggle = combat_selection_2:AddToggle("jumppower_toggle",
     Default = false,
     Callback = function(value)
         jumppower_enabled = value
-        humanoid.UseJumpPower = not value
+        player.Character:WaitForChild("Humanoid").UseJumpPower = not value
     end
 })
 
@@ -103,7 +101,6 @@ local jumppower_slider = combat_selection_2:AddSlider("jumppower_slider",
     Rounding = 1,
     Callback = function(Value)
         jumppower_value = Value
-        print(jumppower_value)
     end
 })
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -147,16 +144,10 @@ end
 while true do
     task.wait()
     if walkspeed_enabled then
-        humanoid.WalkSpeed = walkspeed_value
+        player.Character:WaitForChild("Humanoid").WalkSpeed = walkspeed_value
     end
     
     if jumppower_enabled then
-        humanoid.JumpHeight = jumppower_value
+        player.Character:WaitForChild("Humanoid").JumpHeight = jumppower_value
     end
 end
-
-humanoid.Dead:Connect(function()
-    player = game.Players.LocalPlayer
-    character = player.Character or player.CharacterAdded:Wait()
-    humanoid = character:WaitForChild("Humanoid")
-end)
